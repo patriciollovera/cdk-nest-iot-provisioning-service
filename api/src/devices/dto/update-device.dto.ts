@@ -8,10 +8,6 @@ export class UpdateDeviceDto extends PartialType(CreateDeviceDto) {
     
     @IsString()
     @IsNotEmpty()
-    deviceId: string;
-
-    @IsString()
-    @IsNotEmpty()
     friendlyName: string;
 
     @IsString()

@@ -30,7 +30,7 @@ export class DeviceDao{
         return await this.ddb.entityManager.create(device);
     }
 
-    async updateDevice(deviceId: string, device: DeviceEntity) {
+    async updateDevice(deviceId: string, device: Partial<DeviceEntity>) {
         return await this.ddb.entityManager.update(DeviceEntity, {
             deviceId
         }, {
