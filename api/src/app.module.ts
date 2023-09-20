@@ -5,10 +5,23 @@ import { DevicesModule } from './devices/devices.module';
 import { DdbModule } from './ddb/ddb.module';
 import { DeviceEntity } from './devices/entities/device.entity';
 import { INDEX_TYPE } from '@typedorm/common';
+import { AwsSdkModule } from 'nest-aws-sdk';
+import { Iot } from 'aws-sdk';
+import { ProvisioningService } from './provisioning/provisioning.service';
+import { PolicyBuilderService } from './provisioning/policy-builder.service';
+import { ProvisioningConfig } from './provisioning/provisioning.config';
+import { ProvisioningModule } from './provisioning/provisioning.module';
 
 @Module({
   imports: [
     DevicesModule,
+    ProvisioningModule,
+    AwsSdkModule.forRoot({
+        defaultServiceOptions: {
+            region: process.env.REGION,
+        },
+        services: [Iot],
+    }),
     DdbModule.forRoot({
       ddbTable: {
           name: process.env.DDB_TABLE,
@@ -36,6 +49,6 @@ import { INDEX_TYPE } from '@typedorm/common';
   }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ProvisioningService, ProvisioningConfig, PolicyBuilderService],
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { CfnParameter} from 'aws-cdk-lib';
 import { IGrantable } from 'aws-cdk-lib/aws-iam';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 
 export class apistack extends Construct {
@@ -38,8 +39,25 @@ export class apistack extends Construct {
       environment: {
         NODE_PATH: "$NODE_PATH:/opt",
         DDB_TABLE: "deviceTable",
+        ACCOUNT_ID: "206251961235",//cdk.Stack.of(this).account,
+        REGION: "us-east-1",//cdk.Stack.of(this).region,
+        INGESTION_DECODED_RULE_NAME: "decode_rule",
+        INGESTION_PASSTHROUGH_RULE_NAME: "pasthrough_rule"
       },
     });
+
+    // 👇 create a policy statement
+    const lambdaIotpolicy = new iam.PolicyStatement({
+      actions: ['iot:*'],
+      resources: ['*'],
+    });
+
+    // 👇 add the policy to the Function's role
+    dynamoAPiLambda.role?.attachInlinePolicy(
+      new iam.Policy(this, 'list-buckets-policy', {
+        statements: [lambdaIotpolicy],
+      }),
+    );
 
     this.lambdafunciton = dynamoAPiLambda;
 

@@ -28,6 +28,46 @@ export class DeviceEntity {
     @Attribute()
     description: string;
 
+    @Attribute()
+    // @IsString()
+    publishTopics: string;
+
+    @Attribute()
+    // @IsString()
+    subscribeTopics: string;
+
+    @Attribute()
+    // @IsString()
+    thingArn: string;
+
+    @Attribute()
+    // @IsString()
+    thingId: string;
+
+    @Attribute()
+    // @IsString()
+    certArn: string;
+
+    @Attribute()
+    // @IsString()
+    certId: string;
+
+    @Attribute()
+    // @IsString()
+    policyArn: string;
+
+    @Attribute()
+    // @IsString()
+    caCert: string;
+
+    @Attribute()
+    // @IsString()
+    iotEndpoint: string;
+
+    @Attribute()
+    // @IsString()
+    ingestionTopic: string;
+
     @AutoGenerateAttribute({
         strategy: AUTO_GENERATE_ATTRIBUTE_STRATEGY.ISO_DATE,
         autoUpdate: true

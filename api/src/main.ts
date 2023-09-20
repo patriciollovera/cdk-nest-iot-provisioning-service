@@ -16,7 +16,7 @@ const bootstrapServer = async () => {
     const app = await NestFactory.create(AppModule, adapter, {logger: [
         'log', 'error', 'warn', 'debug', 'verbose'
     ]});
-    // app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe());
     await app.init();
     return createServer(expressApp);
 };
